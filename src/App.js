@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginButton />} />
-        <Route path="/auth/google/callback" element={<Callback />} />
+        <Route path="/auth/google" element={<Callback />} />
         <Route
           path="/dashboard"
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
