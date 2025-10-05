@@ -1,6 +1,6 @@
 import './App.css';
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 import LoginButton from "./components/LoginButton";
 import Callback from "./pages/Callback";
 import Dashboard from "./pages/Dashboard";
@@ -21,7 +21,6 @@ function App() {
         />
       </Routes>
     </Router>
-
   );
 }
 
