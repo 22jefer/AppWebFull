@@ -1,15 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Callback = () => {
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
 
-    console.log("🔍 URL actual:", window.location.href);
     console.log("📦 Código recibido:", code);
 
     if (!code) {
-      console.error("❌ No se encontró el parámetro 'code' en la URL");
+      setError("No se recibió el código de Google.");
       return;
     }
 
@@ -18,29 +19,25 @@ const Callback = () => {
 
     fetch(endpoint)
       .then((res) => {
-        console.log("📡 Estado de respuesta HTTP:", res.status);
-        if (!res.ok) {
-          throw new Error(`Error HTTP: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
         return res.json();
       })
       .then((data) => {
         console.log("✅ Respuesta del backend:", data);
-
         if (data.tokens?.app_token) {
           localStorage.setItem("app_token", data.tokens.app_token);
-          console.log("🔐 Token guardado en localStorage:", data.tokens.app_token);
-          console.log("➡️ Redirigiendo al dashboard...");
           window.location.href = "/dashboard";
         } else {
-          console.error("⚠️ No se recibió app_token en la respuesta:", data);
+          setError("No se recibió el token de la aplicación.");
         }
       })
       .catch((err) => {
         console.error("🔥 Error en el login:", err);
+        setError("Error al procesar el login.");
       });
   }, []);
 
+  if (error) return <p>{error}</p>;
   return <p>Procesando login...</p>;
 };
 

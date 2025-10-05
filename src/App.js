@@ -4,14 +4,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import LoginButton from "./components/LoginButton";
 import Callback from "./pages/Callback";
 import Dashboard from "./pages/Dashboard";
+import { useAuth } from "./hooks/useAuth";
 
 
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem("app_token");
-
+  const isAuthenticated = useAuth();
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginButton />} />
         <Route path="/auth/google" element={<Callback />} />
@@ -20,7 +20,7 @@ function App() {
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
         />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
