@@ -11,7 +11,7 @@ const Callback = () => {
     }
 
     // 🔐 Llamada a tu Lambda publicada en API Gateway
-    fetch(`https://8okanrhrtf.execute-api.us-east-2.amazonaws.com/Etapa_v1/auth/google/callback?code=${encodeURIComponent(code)}`)
+    fetch(`https://8okanrhrtf.execute-api.us-east-2.amazonaws.com/Etapa_v1/auth/google?code=${encodeURIComponent(code)}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Error HTTP: ${res.status}`);
