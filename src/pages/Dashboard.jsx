@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
