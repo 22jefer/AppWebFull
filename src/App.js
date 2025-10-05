@@ -1,6 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginButton from "./components/LoginButton";
 import Callback from "./pages/Callback";
 import Dashboard from "./pages/Dashboard";
@@ -10,6 +9,11 @@ import { useAuth } from "./hooks/useAuth";
 
 function App() {
   const isAuthenticated = useAuth();
+
+  if (isAuthenticated === null) {
+    return <p>Cargando sesión...</p>;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -21,6 +25,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
+
   );
 }
 
