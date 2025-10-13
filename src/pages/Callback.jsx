@@ -1,29 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const Callback = () => {
-  const [error, setError] = useState(null);
+  const [estado, setEstado] = useState("Procesando login...");
 
   useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('code');
-    if (!code) return setError('No se recibió el código de Google.');
+    const code = new URLSearchParams(window.location.search).get("code");
+    if (!code) {
+      setEstado("No se recibió el código de Google.");
+      return;
+    }
 
     const endpoint = `https://8okanrhrtf.execute-api.us-east-2.amazonaws.com/Etapa_v1/auth/google?code=${encodeURIComponent(code)}`;
+    console.log("🔗 Enviando código a Lambda:", endpoint);
 
     fetch(endpoint)
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
-      .then(data => {
-        const token = data.tokens?.app_token;
-        if (!token) return setError('No se recibió el token de la aplicación.');
-        localStorage.setItem('app_token', token);
-        window.location.href = '/dashboard';
+      .then((res) => {
+        if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+        return res.json();
       })
-      .catch(err => {
-        console.error('Error en el login:', err);
-        setError('Error al procesar el login.');
+      .then((data) => {
+        console.log("✅ Respuesta recibida:", data);
+
+        const token = data.tokens?.app_token;
+        if (!token) {
+          setEstado("No se recibió el token de la aplicación.");
+          return;
+        }
+
+        localStorage.setItem("app_token", token);
+        window.location.href = "/dashboard";
+      })
+      .catch((err) => {
+        console.error("❌ Error en el login:", err);
+        setEstado("Error al procesar el login.");
       });
   }, []);
 
-  return <p>{error || 'Procesando login...'}</p>;
+  return <p>{estado}</p>;
 };
 
 export default Callback;
