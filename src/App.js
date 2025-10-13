@@ -1,18 +1,15 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LoginButton from "./components/LoginButton";
-import Callback from "./pages/Callback";
-import Dashboard from "./pages/Dashboard";
-import { useAuth } from "./hooks/useAuth";
 
-
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginButton from './components/LoginButton';
+import Callback from './pages/Callback';
+import Dashboard from './pages/Dashboard';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
   const isAuthenticated = useAuth();
 
-  if (isAuthenticated === null) {
-    return <p>Cargando sesión...</p>;
-  }
+  if (isAuthenticated === null) return <p>Cargando sesión...</p>;
 
   return (
     <BrowserRouter>
@@ -25,7 +22,6 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
-
   );
 }
 
